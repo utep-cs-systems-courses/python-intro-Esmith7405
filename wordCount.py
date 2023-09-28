@@ -4,7 +4,7 @@ import sys        # command line arguments
 import re         # regular expression tools
 import os         # checking if file exists
 import subprocess # executing program
-import string
+import string     # string library
 
 # set input and output files
 if len(sys.argv) != 3:
@@ -22,7 +22,7 @@ with open(textFname, 'r') as inputFile:
     for line in inputFile:
         line = line.lower() #convert word to lowercase and remove punctuation
         line = line.strip() # get rid of newline characters
-        splitLine = re.split("[ \t" + string.punctuation + " ]", line) # split line on whitespace and punctuation - DOES NOT SEPARATE DASHED DOUBLE WORDS
+        splitLine = re.split("[ \t" + string.punctuation + " ]", line) # split line on whitespace and punctuation
         #run through the line and update Word Counts
         for word in splitLine:
             #if the word is in the dictionary, increment it's count, otherwise, add it to the dictionary
@@ -30,10 +30,11 @@ with open(textFname, 'r') as inputFile:
                 wordCounts[word]+=1
             else:
                 wordCounts[word] = 1
-inputFile.close()
-wordCounts.pop('')
-#print(wordCounts.items())
+    inputFile.close()
+
+wordCounts.pop('') #Remove empty strings from wordCounts
+
 with open(outputFname, 'w') as outputFile:
     for key in sorted(wordCounts.keys()):
         outputFile.write(key + " " + str(wordCounts[key]) + "\n")
-outputFile.close()
+    outputFile.close()
