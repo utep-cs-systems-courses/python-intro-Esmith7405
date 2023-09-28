@@ -35,6 +35,7 @@ with open(textFname, 'r') as inputFile:
 wordCounts.pop('') #Remove empty strings from wordCounts
 
 with open(outputFname, 'w') as outputFile:
+    #For every key in wordCounts, write the key and it's wordcount to the output file
     for key in sorted(wordCounts.keys()):
         outputFile.write(key + " " + str(wordCounts[key]) + "\n")
-    outputFile.close()
+    outputFile.close() #close the file

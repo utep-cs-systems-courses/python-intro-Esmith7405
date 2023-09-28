@@ -4,7 +4,7 @@ import sys        # command line arguments
 import re         # regular expression tools
 import os         # checking if file exists
 import subprocess # executing program
-import string
+import string     # string library
 
 # set input and output files
 if len(sys.argv) != 3:
@@ -18,30 +18,26 @@ outputFname = sys.argv[2]
 wordCounts = {}
 
 # attempt to open input file
-#with open(textFname, 'r') as inputFile:
 inputFile = os.open(textFname, os.O_RDONLY)
-n = 50000
-docIn = os.read(inputFile, n).decode() #Assign the file as a string
+n = 10000 #specify number of bytes to read
+docIn = os.read(inputFile, n).decode() #read n number of bytes from the input file
+#convert the read information to lowercase, and remove whitespace
 docIn = docIn.lower()
 docIn = docIn.strip()
-
-splitLine = re.split("[ \t" + string.punctuation + "\n" + "\r" + " ]", docIn)
+splitLine = re.split("[ \t" + string.punctuation + "\n" + "\r" + " ]", docIn) #split docIn based on whitespace, punctuation, newline, and \r
 #run through the line and update Word Counts
 for word in splitLine:
-    #print(word)
     #if the word is in the dictionary, increment it's count, otherwise, add it to the dictionary
     if word in wordCounts:
         wordCounts[word]+=1
     else:
         wordCounts[word] = 1
-os.close(inputFile)
+os.close(inputFile) #close the file
 wordCounts.pop('') #Remove empty strings from wordCounts
-
-#print(wordCounts.keys())
 
 outputFile = os.open(outputFname, os.O_WRONLY | os.O_CREAT)
 for key in sorted(wordCounts.keys()):
-        writeLine = key + " " + str(wordCounts[key]) + "\n"
-        writeLine = bytes(writeLine, "utf-8")
+        writeLine = str(key + " " + str(wordCounts[key]) + "\n")
+        writeLine = writeLine.encode()
         os.write(outputFile, writeLine)
 os.close(outputFile)
