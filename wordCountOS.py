@@ -19,7 +19,7 @@ wordCounts = {}
 
 # attempt to open input file
 inputFile = os.open(textFname, os.O_RDONLY)
-n = 10000 #specify number of bytes to read
+n = 100000 #specify number of bytes to read
 docIn = os.read(inputFile, n).decode() #read n number of bytes from the input file
 #convert the read information to lowercase, and remove whitespace
 docIn = docIn.lower()
@@ -35,6 +35,8 @@ for word in splitLine:
 os.close(inputFile) #close the file
 wordCounts.pop('') #Remove empty strings from wordCounts
 
+#delete file, then create the file
+os.remove(outputFname)
 outputFile = os.open(outputFname, os.O_WRONLY | os.O_CREAT)
 for key in sorted(wordCounts.keys()):
         writeLine = str(key + " " + str(wordCounts[key]) + "\n")
